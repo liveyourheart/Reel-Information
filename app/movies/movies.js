@@ -18,8 +18,6 @@ angular.module('movieInfo.movies', ['ngRoute'])
 .factory('imdbID', function(){
 
   var values = {
-    test: 'test',
-    test2: 'test2',
     id: ''
   };
 
