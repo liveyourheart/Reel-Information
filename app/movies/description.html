@@ -1,30 +1,57 @@
 <div class="container-fluid" ng-controller="MoviesCtrl" ng-init="getMovieById(searchID)">
 
-  <div class="row">
-    <h1>{{title}}</h1>
-    <div class="col-md-6">
-
-      <img ng-src="{{img}}">
-      <h3>IMDB Rating: {{imdbRating}}</h3>
-      <h3>Rotten Tomatoes: {{tomatoes}}</h3>
-      <h3>Metascore: {{metaScore}}</h3>
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h1 class="text-center">{{title}}</h1>
     </div>
 
-    <div class="col-md-6">
-      <h5>Year: {{year}}</h5>
-      <h5>Rated: {{rated}}</h5>
-      <h5>Runtime: {{runtime}}</h5>
-      <h5>Director: {{director}}</h5>
-      <h5>Writer: {{writer}}</h5>
-      <h5>Actors: {{actors}}</h5>
-        <p>{{plot}}</p>
+    <div class="panel-body">
+      <div class="row">
+
+        <div class="col-md-6">
+
+          <img class="img-responsive center-block" ng-src="{{img}}">
+        </div>
+
+        <div class="col-md-6">
+          <h5>Year: {{year}}</h5>
+          <h5>Rated: {{rated}}</h5>
+          <h5>Runtime: {{runtime}}</h5>
+          <h5>Director: {{director}}</h5>
+          <h5>Writer: {{writer}}</h5>
+          <h5>Actors: {{actors}}</h5>
+          <h5>Plot: </h5>
+          <p>{{plot}}</p>
+          <a href="#/">
+            <button class="btn btn-danger btn-lg center-block">Go Back</button>
+          </a>
+        </div>
+
+      </div>
+      <div class="row text-center">
+
+        <div class="col-md-4">
+          <h3>IMDB Rating: {{imdbRating}}</h3>
+        </div>
+
+        <div class="col-md-4">
+          <h3>Rotten Tomatoes: {{tomatoes}}</h3>
+        </div>
+
+        <div class="col-md-4">
+          <h3>Metascore: {{metaScore}}</h3>
+        </div>
+
+      </div>
+
 
     </div>
+
+    <div class="panel-footer">
+    {{awards}}
+    </div>
+
   </div>
-
-
-
-
 
 
 
