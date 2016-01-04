@@ -14,7 +14,7 @@ angular.module('movieInfo.movies', ['ngRoute'])
   });
 
 }])
-
+//factory to pass imdbID across routes
 .factory('imdbID', function(){
 
   var values = {
@@ -27,21 +27,42 @@ angular.module('movieInfo.movies', ['ngRoute'])
     },
 
     setID: function(id){
-      console.log('this is firing');
       values.id = id;
     }
   };
 
 })
+//factory to pass movie name across routes
+.factory('movieName', function(){
 
-.controller('MoviesCtrl', ['$scope', '$http', 'imdbID', function($scope, $http, imdbID) {
+  var values = {
+    movieName: ''
+  };
+
+  return{
+    getValues: function(){
+      return values;
+    },
+
+    setMovieName: function(name){
+      values.movieName = name;
+    }
+  };
+
+})
+
+.controller('MoviesCtrl', ['$scope', '$http', 'imdbID', 'movieName', '$location', function($scope, $http, imdbID, movieName, $location) {
 
   if(imdbID.getValues()){
     $scope.ID = imdbID;
     $scope.values = $scope.ID.getValues();
     $scope.searchID = $scope.values.id;
-    console.log($scope.searchID);
-    console.log($scope.ID);
+  }
+
+  if(movieName.getValues()){
+    $scope.movieName = movieName;
+    $scope.nameValues = $scope.movieName.getValues();
+    $scope.movieNameVal = $scope.nameValues.movieName;
   }
 
 
@@ -51,6 +72,9 @@ angular.module('movieInfo.movies', ['ngRoute'])
   $scope.results = [];
   $scope.idResult = null;
   $scope.tomatoes = null;
+  $scope.netflix = false;
+  $scope.isCollapsed = true;
+  $scope.isNull = false;
 
   $scope.sameId = function(id){
     return id === $scope.id;
@@ -62,11 +86,26 @@ angular.module('movieInfo.movies', ['ngRoute'])
       method: 'GET',
       url: 'http://www.omdbapi.com/?s=' + $scope.name
     }).then(function successCallback(response) {
+
       $scope.results = response.data.Search;
+
+      if(!$scope.results){
+        $scope.isNull = true;
+        console.log($scope.isNull);
+        return;
+      }
+
+      if($scope.results[0].Title.indexOf('null') > -1 ){
+        $scope.isNull = true;
+      } else{
+        $scope.isNull = false;
+      }
+
       $scope.title = $scope.results[0].Title;
       $scope.img = $scope.results[0].Poster;
       $scope.id = $scope.results[0].imdbID;
       $scope.ID.setID($scope.id);
+      $scope.movieName.setMovieName($scope.name);
 
     }, function errorCallback(response) {
 
@@ -74,7 +113,15 @@ angular.module('movieInfo.movies', ['ngRoute'])
 
   };
 
+  $scope.nullRedirect = function(obj){
+    if(obj == ''){
+        $location.path('/');
+    }
+  };
+
   $scope.getMovieById = function(id){
+
+    $scope.nullRedirect(id);
 
     $http({
       method: 'GET',
@@ -104,4 +151,20 @@ angular.module('movieInfo.movies', ['ngRoute'])
 
     });
   };
+
+
+  $scope.checkNetflix = function(){
+    $scope.name = $scope.movieNameVal;
+
+    $http({
+      method: 'GET',
+      url: 'http://netflixroulette.net/api/api.php?title=' + $scope.name
+    }).then(function successCallback(response){
+      $scope.netflix = true;
+      $scope.netflixId = response.data.show_id;
+    }, function errorCallback(response){
+      $scope.netflix = false;
+    });
+  };
+
 }]);

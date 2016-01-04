@@ -1,57 +1,81 @@
 <div class="container-fluid" ng-controller="MoviesCtrl">
-  <div class="jumbotron">
-    <h1>Movie Info</h1>
-    <p>Search some movies...</p>
-    <form>
-      <div class="form-group">
-        <label for="movieSearch">Search a movie: </label>
-        <input ng-model="name" type="text" class="form-control" id="movieSearch" placeholder="Search Any Movie...">
-      </div>
-      <button class="btn btn-lg btn-primary center-block" type="submit" ng-click="getMovieByName(movieSearch)">Search</button>
-    </form>
-  </div>
+  <div class="jumbotron center-text">
 
-  <div ng-if="title" class="panel panel-primary">
+    <div>
 
-    <div class="panel-heading">
-      <h2 class="text-center" ng-if="title">{{title}}</h2>
-    </div>
-
-    <div class="panel-body">
-
-      <div class="row">
-
-        <div class="col-md-6" ng-if="title">
-
-          <div>
-            <img class="img-responsive center-block" ng-src={{img}}>
-
+      <div class="container">
+        <h1 class="title">REEL INFORMATION</h1>
+        <div class="row">
+          <div class="">
+            <img class="img-responsive title-img" src="./img/reel.png">
           </div>
         </div>
 
-        <div class="col-md-6" ng-if="title">
-          <div class="well">
-            <h6>Or did you mean...</h6>
-            <div ng-repeat="result in results">
-              <a ng-hide="sameId(result.imdbID)" ng-click="getMovieById(result.imdbID);">
-            {{result.Title}}</a>
+        <p>Information for reels.</p>
+        <div class="container">
+          <form>
+            <div class="form-group">
+              <label for="movieSearch">Movie Search: </label>
+              <input ng-model="name" type="text" class="form-control" id="movieSearch" placeholder="Search Any Movie...">
             </div>
+            <button class="btn btn-lg btn-primary center-block" type="submit" ng-click="getMovieByName(movieSearch)">Search</button>
+          </form>
+        </div>
+      </div>
+
+      <div ng-if="!!isNull" class="well text-danger panel">
+        No results found! Please try another search.
+      </div>
+
+      <div ng-if="title && !isNull" class="panel panel-primary">
+
+        <div class="panel-heading center-text">
+          <h2 ng-if="title">{{title}}</h2>
+        </div>
+
+        <div class="panel-body">
+
+          <div class="row">
+
+            <div class="col-md-6" ng-if="title">
+
+              <div>
+                <img class="img-responsive center-block" ng-src={{img}}>
+
+              </div>
+            </div>
+
+            <div class="col-md-6" ng-if="title">
+              <div class="well">
+                <h6>Or did you mean...</h6>
+                <div ng-repeat="result in results">
+                  <a ng-hide="sameId(result.imdbID)" ng-click="getMovieById(result.imdbID);">
+            {{result.Title}}</a>
+                </div>
+              </div>
+
+
+
+              <a href="#/description">
+                <button class="btn btn-primary btn-lg center-block">Get Information</button>
+              </a>
+            </div>
+
+
+
           </div>
-
-
-
-          <a href="#/description">
-            <button class="btn btn-primary btn-lg center-block">Get Information</button>
-          </a>
         </div>
 
 
-
       </div>
+
+      <hr>
+      <a ng-click="isCollapsed = !isCollapsed">About</a>
+
+      <div class="about-content well" uib-collapse="isCollapsed">
+        All information has been gathered using <a href="http://omdbapi.com">OMDB</a> and <a href="http://www.netflixroulette.net">Netflix Roulette</a>, and such, I personally do not guarantee the accuracy of the information.
+      </div>
+
+
+
     </div>
-
-
-  </div>
-
-
-</div>

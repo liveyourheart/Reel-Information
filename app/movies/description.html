@@ -1,4 +1,4 @@
-<div class="container-fluid" ng-controller="MoviesCtrl" ng-init="getMovieById(searchID)">
+<div class="container-fluid" ng-controller="MoviesCtrl" ng-init="getMovieById(searchID); checkNetflix();">
 
   <div class="panel panel-primary">
     <div class="panel-heading">
@@ -22,8 +22,18 @@
           <h5>Actors: {{actors}}</h5>
           <h5>Plot: </h5>
           <p>{{plot}}</p>
+
+          <div ng-if="netflix == true" class="row text-center">
+
+            <a href="http://www.netflix.com/watch/{{netflixId}}">
+              <button class="btn btn-danger btn-lg center-block">Watch on Netflix</button>
+            </a>
+            <div class="netflix-disclaimer text-danger">*May launch a movie with similar title</div>
+            <br>
+
+          </div>
           <a href="#/">
-            <button class="btn btn-danger btn-lg center-block">Go Back</button>
+            <button class="btn btn-primary btn-lg center-block">Go Back</button>
           </a>
         </div>
 
@@ -43,6 +53,8 @@
         </div>
 
       </div>
+
+
 
 
     </div>
