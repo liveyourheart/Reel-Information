@@ -5,7 +5,9 @@ angular.module('movieInfo', [
   'ngRoute',
   'movieInfo.view1',
   'movieInfo.version',
-  'movieInfo.movies'
+  'movieInfo.movies',
+  'ngAnimate',
+  'ui.bootstrap'
 ]).
 config(['$routeProvider', function($routeProvider) {
   $routeProvider.otherwise({redirectTo: '/'});

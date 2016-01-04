@@ -1,6 +1,7 @@
 body {
   background-color: #aeaeae;
-  color: #062d8a;
+  color: #3073ac;
+  font-family: 'Merriweather Sans', sans-serif;
 }
 .panel {
   margin-top: 25px;
@@ -9,12 +10,44 @@ body {
   margin-top: 25px;
 }
 .panel-heading {
-  background-color: #062d8a;
+  background-color: #3073ac;
   color: #aeaeae;
 }
 .panel-body {
-  color: #062d8a;
+  color: #3073ac;
 }
 img {
   border-radius: 3px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.center-text {
+  text-align: center;
+}
+.netflix-disclaimer {
+  font-size: 10px;
+}
+.about-content {
+  font-size: 10px;
+  margin-top: 25px;
+}
+.about-content a {
+  text-decoration: underline;
+}
+.title {
+  font-family: 'Oswald', sans-serif;
+}
+.title-img {
+  width: 100px;
+}
+footer {
+  color: #fff;
+  margin-bottom: 15px;
+}
+footer a {
+  color: #fff;
+  text-decoration: underline;
+}
+.well {
+  background-color: #aeaeae !important;
 }

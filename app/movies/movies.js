@@ -45,21 +45,18 @@ angular.module('movieInfo.movies', ['ngRoute'])
     },
 
     setMovieName: function(name){
-      console.log('this is firing');
       values.movieName = name;
     }
   };
 
 })
 
-.controller('MoviesCtrl', ['$scope', '$http', 'imdbID', 'movieName', function($scope, $http, imdbID, movieName) {
+.controller('MoviesCtrl', ['$scope', '$http', 'imdbID', 'movieName', '$location', function($scope, $http, imdbID, movieName, $location) {
 
   if(imdbID.getValues()){
     $scope.ID = imdbID;
     $scope.values = $scope.ID.getValues();
     $scope.searchID = $scope.values.id;
-    console.log($scope.searchID);
-    console.log($scope.ID);
   }
 
   if(movieName.getValues()){
@@ -76,6 +73,8 @@ angular.module('movieInfo.movies', ['ngRoute'])
   $scope.idResult = null;
   $scope.tomatoes = null;
   $scope.netflix = false;
+  $scope.isCollapsed = true;
+  $scope.isNull = false;
 
   $scope.sameId = function(id){
     return id === $scope.id;
@@ -87,7 +86,21 @@ angular.module('movieInfo.movies', ['ngRoute'])
       method: 'GET',
       url: 'http://www.omdbapi.com/?s=' + $scope.name
     }).then(function successCallback(response) {
+
       $scope.results = response.data.Search;
+
+      if(!$scope.results){
+        $scope.isNull = true;
+        console.log($scope.isNull);
+        return;
+      }
+
+      if($scope.results[0].Title.indexOf('null') > -1 ){
+        $scope.isNull = true;
+      } else{
+        $scope.isNull = false;
+      }
+
       $scope.title = $scope.results[0].Title;
       $scope.img = $scope.results[0].Poster;
       $scope.id = $scope.results[0].imdbID;
@@ -100,7 +113,15 @@ angular.module('movieInfo.movies', ['ngRoute'])
 
   };
 
+  $scope.nullRedirect = function(obj){
+    if(obj == ''){
+        $location.path('/');
+    }
+  };
+
   $scope.getMovieById = function(id){
+
+    $scope.nullRedirect(id);
 
     $http({
       method: 'GET',
@@ -134,15 +155,13 @@ angular.module('movieInfo.movies', ['ngRoute'])
 
   $scope.checkNetflix = function(){
     $scope.name = $scope.movieNameVal;
-    console.log($scope.name);
+
     $http({
       method: 'GET',
       url: 'http://netflixroulette.net/api/api.php?title=' + $scope.name
     }).then(function successCallback(response){
       $scope.netflix = true;
-      console.log(response);
       $scope.netflixId = response.data.show_id;
-      console.log('netflix ID: ' + $scope.netflixId);
     }, function errorCallback(response){
       $scope.netflix = false;
     });
